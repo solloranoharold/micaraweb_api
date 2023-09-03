@@ -1,0 +1,25 @@
+{
+  "name": "micaraweb_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.1.0",
+    "md5": "^2.3.0",
+    "moment": "^2.29.4",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.21",
+    "serve-index": "^1.9.1",
+    "winser": "^1.0.3"
+  }
+}
