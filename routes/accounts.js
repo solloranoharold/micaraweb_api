@@ -69,7 +69,7 @@ router.post("/insertUpdateAccounts", (req, res) => {
       }' , profile_img='${
         req.body.profile_img
       }',fullname='${req.body.fullname.toUpperCase()}',age=${req.body.age},
-      gender='${req.body.gender}',address='${req.body.gender}',contactno='${
+      gender='${req.body.gender}',address='${req.body.address}',contactno='${
         req.body.contactno
       }',password='${newpassword}'  where user_id = ${req.body.user_id}
       `;

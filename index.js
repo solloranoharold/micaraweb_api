@@ -10,6 +10,7 @@ app.use(
 );
 
 app.use("/accounts", require("./routes/accounts"));
+app.use("/monitoring", require("./routes/monitoring"));
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
