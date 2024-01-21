@@ -42,8 +42,10 @@ router.post("/insertUpdateRequest", (req, res) => {
     (${req.body.user_id},'${req.body.visitor_name}','${req.body.vehicle}','${req.body.plate_no}','${req.body.purpose}')`;
   } else {
     sql = `UPDATE tbl_transactions SET user_id=${req.body.user_id} , visitor_name = '${req.body.visitor_name}'
-    , vehicle='${req.body.vehicle}' , plate_no='${req.body.plate_no}' ,purpose='${req.body.purpose}'
-    ,date_arrival='${req.body.date_arrival}' `;
+    , vehicle='${req.body.vehicle}' , plate_no='${req.body.plate_no}' ,purpose='${req.body.purpose}' `;
+    sql += req.body.date_arrival
+      ? `,date_arrival='${req.body.date_arrival}' `
+      : "";
     sql += req.body.checkedBy ? `,checkedBy='${req.body.checkedBy}' ` : "";
     sql += req.body.date_departure
       ? `,date_departure='${req.body.date_departure}' `
