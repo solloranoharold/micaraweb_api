@@ -45,7 +45,7 @@ router.post("/insertUpdateRequest", (req, res) => {
     , vehicle='${req.body.vehicle}' , plate_no='${req.body.plate_no}' ,purpose='${req.body.purpose}'
     ,date_arrival='${req.body.date_arrival}',date_departure='${req.body.date_departure}',checkedBy='${req.body.checkedBy}' WHERE transaction_id=${req.body.transaction_id}`;
   }
-
+  console.log("post tansacation", sql);
   dbCon.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(results);
