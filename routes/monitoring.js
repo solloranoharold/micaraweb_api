@@ -46,7 +46,7 @@ router.post("/insertUpdateRequest", (req, res) => {
     ,date_arrival='${req.body.date_arrival}',checkedBy='${req.body.checkedBy}' `;
     sql +=
       req.body.date_departure ||
-      `,'date_departure='${req.body.date_departure}'`;
+      `,'date_departure='${req.body.date_departure}' `;
     sql += `WHERE transaction_id=${req.body.transaction_id}`;
   }
   console.log("post transacation", sql);
