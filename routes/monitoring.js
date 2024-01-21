@@ -44,9 +44,9 @@ router.post("/insertUpdateRequest", (req, res) => {
     sql = `UPDATE tbl_transactions SET user_id=${req.body.user_id} , visitor_name = '${req.body.visitor_name}'
     , vehicle='${req.body.vehicle}' , plate_no='${req.body.plate_no}' ,purpose='${req.body.purpose}'
     ,date_arrival='${req.body.date_arrival}',checkedBy='${req.body.checkedBy}' `;
-    sql +=
-      req.body.date_departure ||
-      `,'date_departure='${req.body.date_departure}' `;
+    sql += req.body.date_departure
+      ? `,'date_departure='${req.body.date_departure}' `
+      : "";
     sql += `WHERE transaction_id=${req.body.transaction_id}`;
   }
   console.log("post transacation", sql);
