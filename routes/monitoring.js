@@ -33,7 +33,7 @@ router.get("/loadYears", (req, res) => {
 });
 
 router.post("/insertUpdateRequest", (req, res) => {
-  console.log(req.body);
+  console.log(req.body, " inserUpdateRequest");
   let sql = "";
   if (req.body.index == -1) {
     sql = `INSERT INTO tbl_transactions
