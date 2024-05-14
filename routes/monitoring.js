@@ -60,6 +60,7 @@ router.post("/insertUpdateRequest", (req, res) => {
   });
 });
 router.post(`/loadTransaction`, (req, res) => {
+  console.log("/LOADtRANSACTION");
   let sql = "";
   if (req.body.userInfo) {
     if (
@@ -69,10 +70,10 @@ router.post(`/loadTransaction`, (req, res) => {
       sql = `SELECT A.*,A.date_created AS 'DateCreated',B.*,B.fullname AS 'HomeOwner',C.fullname AS "checker"  FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id
        LEFT JOIN tbl_accounts C on A.checkedBy = C.user_id Where DATE(A.date_created)='${req.body.date}'`;
     } else {
-      sql = `SELECT A.* ,B.* FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id Where DATE(A.date_created)='${req.body.date}' AND A.user_id =${req.body.userInfo.user_id}`;
+      sql = `SELECT A.* ,B.*,A.date_created AS 'DateCreated'FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id Where DATE(A.date_created)='${req.body.date}' AND A.user_id =${req.body.userInfo.user_id}`;
     }
   } else {
-    sql = `SELECT A.*,B.* FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id `;
+    sql = `SELECT A.*,B.*,A.date_created AS 'DateCreated' FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id `;
   }
   console.log("Trnsacation", sql);
   dbCon.query(sql, function (error, results, fields) {
