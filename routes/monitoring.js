@@ -37,9 +37,9 @@ router.post("/insertUpdateRequest", (req, res) => {
   let sql = "";
   if (req.body.index == -1) {
     sql = `INSERT INTO tbl_transactions
-    (user_id , visitor_name, vehicle , plate_no ,purpose)
+    (user_id , visitor_name, vehicle , plate_no ,purpose,date_created)
     values
-    (${req.body.user_id},'${req.body.visitor_name}','${req.body.vehicle}','${req.body.plate_no}','${req.body.purpose}')`;
+    (${req.body.user_id},'${req.body.visitor_name}','${req.body.vehicle}','${req.body.plate_no}','${req.body.purpose}','${req.body.date_created}')`;
   } else {
     sql = `UPDATE tbl_transactions SET user_id=${req.body.user_id} , visitor_name = '${req.body.visitor_name}'
     , vehicle='${req.body.vehicle}' , plate_no='${req.body.plate_no}' ,purpose='${req.body.purpose}' `;
@@ -50,6 +50,7 @@ router.post("/insertUpdateRequest", (req, res) => {
     sql += req.body.date_departure
       ? `,date_departure='${req.body.date_departure}' `
       : "";
+    sql += `,date_created='${req.body.date_created}'`;
     sql += `WHERE transaction_id=${req.body.transaction_id}`;
   }
   console.log("post transacation", sql);
