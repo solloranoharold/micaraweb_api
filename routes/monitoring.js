@@ -67,7 +67,7 @@ router.post(`/loadTransaction`, (req, res) => {
       req.body.userInfo.position == "Administrator" ||
       req.body.userInfo.position == "Security Guard"
     ) {
-      sql = `SELECT A.*,A.date_created AS 'DateCreated',B.*,B.fullname AS 'HomeOwner',C.fullname AS "checker"  FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id
+      sql = `SELECT A.*,A.date_created AS 'DateCreated',B.*, CONCAT(B.lastname,' ',B.firstname ) AS 'HomeOwner',CONCAT(C.lastname,' ',C.firstname ) AS "checker"  FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id
        LEFT JOIN tbl_accounts C on A.checkedBy = C.user_id Where DATE(A.date_created)='${req.body.date}'`;
     } else {
       sql = `SELECT A.* ,B.*,A.date_created AS 'DateCreated'FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id Where DATE(A.date_created)='${req.body.date}' AND A.user_id =${req.body.userInfo.user_id}`;
@@ -83,7 +83,7 @@ router.post(`/loadTransaction`, (req, res) => {
 });
 
 router.get("/generateReport/:date1/:date2", (req, res) => {
-  let sql = `SELECT A.*,A.date_created AS 'DateCreated', B.*,B.fullname AS 'HomeOwner',C.fullname AS "checker"  FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id
+  let sql = `SELECT A.*,A.date_created AS 'DateCreated', B.*,CONCAT(B.lastname,' ',B.firstname ) AS 'HomeOwner',CONCAT(C.lastname,' ',C.firstname ) AS "checker"  FROM tbl_transactions A INNER JOIN tbl_accounts B ON A.user_id=B.user_id
   LEFT JOIN tbl_accounts C on A.checkedBy = C.user_id Where DATE(A.date_created) BETWEEN '${req.params.date1}' AND '${req.params.date2}'`;
   dbCon.query(sql, function (error, results, fields) {
     if (error) throw error;

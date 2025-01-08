@@ -37,22 +37,47 @@ router.get("/positions", (req, res) => {
   });
 });
 
-router.post("/insertUpdateAccounts", (req, res) => {
-  console.log(req.body);
+
+ function findUserLength() { 
+   return new Promise(resolve => { 
+     let sql = "SELECT * FROM tbl_accounts where position_id!=1";
+      dbCon.query(sql, function (error, results, fields) {
+        if (error) throw error;
+       resolve(results)
+      });
+  })
+}
+
+router.get('/usersLength', async (req, res) => { 
+  let users = await findUserLength()
+  let user_id = (users.length + 1).toString().padStart(6, '0');
+  res.send({user_id : user_id})
+})
+router.post("/insertUpdateAccounts", async(req, res) => {
+  console.log('/insertUpdateAccounts',req.body);
   let sql = "";
+  let users = await findUserLength()
+  let user_id = (users.length + 1 ).toString().padStart(6, '0');
   let newpassword = md5(req.body.password);
   if (req.body.index == -1) {
     sql = `
       insert into tbl_accounts
-      (position_id,profile_img,fullname,age,gender,address,contactno,username,password)
+      (user_id , position_id,profile_img,firstname,lastname,gender,phase,block,lot,street,contactno,username,password)
       values
-      (${req.body.position_id},'${
-      req.body.profile_img
-    }','${req.body.fullname.toUpperCase()}',${req.body.age},'${
-      req.body.gender
-    }','${req.body.address.toString().toUpperCase()}','${
-      req.body.contactno
-    }','${req.body.username.toUpperCase()}','${newpassword}')
+      (
+      '${user_id}',
+      ${req.body.position_id},
+      '${ req.body.profile_img}',
+      '${req.body.firstname.toUpperCase()}',
+      '${req.body.lastname.toUpperCase()}',
+      '${req.body.gender}',
+      '${req.body.phase.toString().toUpperCase()}',
+      '${req.body.block.toString().toUpperCase()}',
+      '${req.body.lot.toString().toUpperCase()}',
+      '${req.body.street.toString().toUpperCase()}',
+      '${ req.body.contactno}',
+      '${req.body.username.toUpperCase()}','${newpassword}'
+      )
     `;
     dbCon.query(sql, function (error, results, fields) {
       if (error) throw error;
@@ -64,14 +89,18 @@ router.post("/insertUpdateAccounts", (req, res) => {
       if (error) throw error;
       if (data[0].password == req.body.password)
         newpassword = req.body.password;
-      sql = `update tbl_accounts set position_id='${
-        req.body.position_id
-      }' , profile_img='${
-        req.body.profile_img
-      }',fullname='${req.body.fullname.toUpperCase()}',age=${req.body.age},
-      gender='${req.body.gender}',address='${req.body.address}',contactno='${
-        req.body.contactno
-      }',password='${newpassword}'  where user_id = ${req.body.user_id}
+      sql = `update tbl_accounts set 
+      position_id='${ req.body.position_id}' , 
+      profile_img='${ req.body.profile_img}',
+      firstname='${req.body.firstname.toUpperCase()}',
+      lastname='${req.body.lastname.toUpperCase()}',
+      phase='${req.body.phase.toUpperCase()}',
+      block='${req.body.block.toUpperCase()}',
+      lot='${req.body.lot.toUpperCase()}',
+      street='${req.body.street.toUpperCase()}',
+      gender='${req.body.gender}',
+      contactno='${req.body.contactno}',password='${newpassword}'  
+      where user_id = ${req.body.user_id}
       `;
       dbCon.query(sql, function (error, results, fields) {
         if (error) throw error;
